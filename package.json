@@ -43,7 +43,8 @@
 	"devDependencies": {
 		"tsx": "^4.21.0",
 		"tsup": "^8.0.0",
-		"typescript": "^5.9.0"
+		"typescript": "^5.9.0",
+		"@types/node": "^25.3.3"
 	},
 	"engines": {
 		"node": ">=18"
