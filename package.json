@@ -1,0 +1,54 @@
+{
+	"name": "@borough/mcp",
+	"version": "1.1.0",
+	"description": "MCP server for Borough NYC Real Estate API — search rentals, sales, property details, and building data across all five NYC boroughs",
+	"type": "module",
+	"bin": {
+		"borough-mcp": "./dist/index.js"
+	},
+	"main": "./dist/index.js",
+	"files": [
+		"dist",
+		"README.md"
+	],
+	"keywords": [
+		"mcp",
+		"model-context-protocol",
+		"nyc",
+		"real-estate",
+		"borough",
+		"ai",
+		"claude",
+		"chatgpt",
+		"llm",
+		"rental",
+		"apartment",
+		"property"
+	],
+	"mcpName": "app.qwady/borough",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/jdmay2/borough-mcp"
+	},
+	"homepage": "https://borough.qwady.app",
+	"license": "MIT",
+	"scripts": {
+		"build": "tsup src/index.ts --format esm --clean --shims",
+		"typecheck": "tsc --noEmit",
+		"test": "tsx --test test/*.test.ts"
+	},
+	"dependencies": {
+		"mcp-remote": "^0.1.38"
+	},
+	"devDependencies": {
+		"tsx": "^4.21.0",
+		"tsup": "^8.0.0",
+		"typescript": "^5.9.0"
+	},
+	"engines": {
+		"node": ">=18"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
+}

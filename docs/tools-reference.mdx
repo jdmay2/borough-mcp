@@ -1,0 +1,162 @@
+---
+title: "Tools Reference"
+description: "Complete reference for all Borough MCP tools"
+---
+
+## Search Tools
+
+### search_rentals
+
+Search active rental listings across all five NYC boroughs.
+
+**Tier:** Free
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `areas` | string or array | Area IDs as either a comma-separated string or an array (use `list_areas` to find IDs) |
+| `minPrice` | number | Minimum monthly rent in USD |
+| `maxPrice` | number | Maximum monthly rent in USD |
+| `minBeds` | number | Minimum bedrooms (0 = studio) |
+| `maxBeds` | number | Maximum bedrooms |
+| `minBaths` | number | Minimum full bathrooms |
+| `maxBaths` | number | Maximum full bathrooms |
+| `buildingType` | string | Comma-separated: RENTAL, CONDO, CO_OP, HOUSE, MULTI_FAMILY, TOWNHOUSE |
+| `noFee` | boolean | Filter for no-fee listings only |
+| `sort` | string | PRICE, LISTED_AT, or RECOMMENDED |
+| `sortDir` | string | ASC or DESC |
+| `hasOpenHouse` | boolean | Filter for listings with open houses |
+| `has3dTour` | boolean | Filter for listings with 3D tours |
+| `maxMonthlyCost` | number | Max total monthly cost (rent + fees) |
+| `minTransitScore` | number | Minimum transit score (0-100) |
+| `page` | number | Page number (default 1) |
+| `perPage` | number | Results per page (default 10) |
+
+**Borough IDs:** Manhattan=100, Bronx=200, Brooklyn=300, Queens=400, Staten Island=500
+
+---
+
+### search_sales
+
+Search active for-sale listings. Same parameters as `search_rentals` plus:
+
+**Tier:** Free
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `saleType` | string | RESALE, SPONSOR_UNIT, or FORECLOSURE |
+
+---
+
+## Property Tools
+
+### get_property
+
+Get full details for a specific listing by ID. Returns 50+ fields.
+
+**Tier:** Starter ($19/mo)
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `id` | string | Yes | Listing ID |
+
+---
+
+### get_property_by_url
+
+Look up a listing by its URL path.
+
+**Tier:** Starter ($19/mo)
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `url` | string | Yes | URL path (e.g. "apartment-for-rent/1234567/manhattan/nyc") |
+
+---
+
+## Building Tools
+
+### get_building
+
+Get detailed building information.
+
+**Tier:** Starter ($19/mo)
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `id` | string | Yes | Building ID |
+
+---
+
+### get_building_listings
+
+Get all listings within a specific building.
+
+**Tier:** Starter ($19/mo)
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `id` | string | Yes | Building ID |
+| `status` | string | No | ACTIVE, IN_CONTRACT, or OFF_MARKET |
+| `listingType` | string | No | rental or sale |
+| `page` | number | No | Page number |
+| `perPage` | number | No | Results per page |
+
+---
+
+## Area Tools
+
+### list_areas
+
+List all 349 NYC neighborhoods, boroughs, and sub-areas.
+
+**Tier:** Free
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `level` | number | 0=borough, 1=neighborhood |
+| `parentId` | number | Parent area ID (e.g. 200 for Bronx neighborhoods) |
+| `page` | number | Page number |
+| `perPage` | number | Results per page |
+
+---
+
+## Market Tools
+
+### get_market_snapshot
+
+Current market statistics for a neighborhood.
+
+**Tier:** Free (authenticated)
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `areaId` | number | Yes | Area ID |
+| `bedrooms` | number | No | Filter by bedroom count (0-4) |
+| `listingType` | string | No | rental or sale (default: rental) |
+
+---
+
+### get_market_trends
+
+Historical price trends for a neighborhood (up to 365 days).
+
+**Tier:** Free (authenticated)
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `areaId` | number | Yes | Area ID |
+| `listingType` | string | No | rental or sale (default: rental) |
+
+---
+
+### compare_neighborhoods
+
+Side-by-side comparison of 1-5 neighborhoods.
+
+**Tier:** Free (authenticated)
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `areas` | string or array | Yes | Area IDs as a comma-separated string or an array (1-5 total) |
+| `bedrooms` | number | No | Filter by bedroom count (0-4) |
+| `listingType` | string | No | rental or sale (default: rental) |

@@ -1,0 +1,130 @@
+---
+title: "Quick Start"
+description: "Connect your AI agent to Borough in 2 minutes"
+---
+
+## Prerequisites
+
+1. A Borough account
+2. Optional: a Borough API key if you want paid-tier tools
+3. An MCP-compatible AI client
+
+If you are connecting from Claude or Claude Desktop, use the dedicated guide:
+
+- [Add Borough to Claude](/mcp/add-to-claude)
+
+## Remote Connection (Recommended)
+
+Most MCP clients support connecting to remote servers directly. Use the Borough MCP endpoint:
+
+```
+https://borough.qwady.app/mcp
+```
+
+For clients without OAuth support, pass your Borough API key via the `Authorization` header:
+
+```
+Authorization: Bearer BOROUGH-<your_key>
+```
+
+## Client Setup
+
+<Tabs>
+  <Tab title="Claude Connectors">
+    Borough supports an OAuth-based connector flow for seamless integration with Claude through custom connectors.
+
+    1. In Claude, go to **Settings → Connectors**
+    2. Click **Add custom connector**
+    3. Enter the URL: `https://borough.qwady.app/mcp`
+    4. Claude auto-discovers the OAuth flow and opens the consent page
+    5. Enter your Borough API key to unlock paid tools, or continue without a key for the free Borough MCP tool set
+    6. Click **Authorize**
+
+    That's it — Claude can now query NYC real estate data directly.
+
+    <Note>See [Add Borough to Claude](/mcp/add-to-claude) for the exact current flow, including free-plan and team/org setup.</Note>
+  </Tab>
+  <Tab title="Claude Desktop">
+    Claude Desktop supports the same remote custom connector flow as Claude web.
+
+    1. Open **Settings → Connectors**
+    2. Click **Add custom connector**
+    3. Enter `https://borough.qwady.app/mcp`
+    4. Complete the Borough OAuth flow
+
+    If you need the full step-by-step path, use:
+
+    - [Add Borough to Claude](/mcp/add-to-claude)
+  </Tab>
+  <Tab title="Cursor">
+    Add to `.cursor/mcp.json` in your project:
+
+    ```json
+    {
+      "mcpServers": {
+        "borough": {
+          "url": "https://borough.qwady.app/mcp",
+          "headers": {
+            "Authorization": "Bearer BOROUGH-<your_key>"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+  <Tab title="VS Code">
+    Add to `.vscode/mcp.json` in your project:
+
+    ```json
+    {
+      "servers": {
+        "borough": {
+          "type": "http",
+          "url": "https://borough.qwady.app/mcp",
+          "headers": {
+            "Authorization": "Bearer BOROUGH-<your_key>"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+  <Tab title="npx">
+    Run locally via the [`@borough/mcp`](https://www.npmjs.com/package/@borough/mcp) stdio bridge:
+
+    ```bash
+    BOROUGH_API_KEY=BOROUGH-<your_key> npx @borough/mcp
+    ```
+
+    This spawns a local stdio-to-HTTP bridge that connects to the remote MCP server.
+  </Tab>
+</Tabs>
+
+## ChatGPT (GPT Actions)
+
+ChatGPT does not support MCP natively. Instead, you can create a custom GPT with an Action that calls the Borough REST API directly using the [ChatGPT OpenAPI spec](https://github.com/jdmay2/borough/blob/main/docs/chatgpt-openapi.yaml):
+
+1. Go to [ChatGPT GPT Builder](https://chatgpt.com/gpts/editor)
+2. Under **Actions**, click **Create new action**
+3. Import the OpenAPI spec from the URL above (or paste the YAML)
+4. Under **Authentication**, select **API Key** with header `Authorization` and prefix `Bearer`
+5. Enter your Borough API key as the value
+
+## Test It
+
+Once connected, try asking your AI agent:
+
+- "Search for no-fee 1-bedroom apartments in Manhattan under $3,500"
+- "List all Brooklyn neighborhoods"
+- "What's the median rent in the East Village?"
+
+The agent will automatically select the right Borough tools and return formatted results.
+
+## Troubleshooting
+
+If tools aren't showing up:
+
+1. Verify your Borough account or API key is valid by visiting the [customer portal](https://polar.sh/qwady-solutions-llc/portal)
+2. Check that the MCP endpoint is reachable: `curl https://borough.qwady.app/mcp`
+3. Restart your AI client after configuration changes
+4. See the [troubleshooting guide](/mcp/troubleshooting) for more help

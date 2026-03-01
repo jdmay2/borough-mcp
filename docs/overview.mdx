@@ -1,0 +1,67 @@
+---
+title: "MCP Server"
+description: "Connect AI agents to NYC real estate data via the Model Context Protocol"
+---
+
+## What is Borough MCP?
+
+Borough provides a [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server that lets AI agents query NYC real estate data through natural language tool calls.
+
+Instead of writing code to call the REST API, you can ask your AI assistant questions like:
+
+- "Find me 2-bedroom apartments in Williamsburg under $4,000/month"
+- "Compare rents between Park Slope, Astoria, and the East Village"
+- "Get details on property 4961849"
+
+The MCP server exposes 10 tools that map to Borough's REST API endpoints, with the same tier-based access, rate limits, and quota enforcement.
+
+## How It Works
+
+```
+AI Agent (Claude, ChatGPT, Cursor)
+  ↓ MCP tool call
+Borough MCP Server (https://borough.qwady.app/mcp)
+  ↓ internal REST call with your API key
+Borough REST API (/v1/search/rentals, /v1/property/:id, etc.)
+  ↓
+Response formatted for AI consumption
+```
+
+Authenticated MCP sessions are mapped to Borough tiers, so the same tool restrictions, rate limits, and monthly quotas apply as the REST API.
+
+## Authentication Methods
+
+Borough MCP supports two connection patterns:
+
+| Method | Best For | Setup |
+|--------|----------|-------|
+| **OAuth-based connector flow** | Claude Connectors and other OAuth-capable MCP clients | Auto-discovered via `/.well-known/` — paste the MCP URL and complete Borough auth |
+| **Bearer Token** | Direct MCP config files and CLI clients | `Authorization: Bearer BOROUGH-<key>` header |
+
+OAuth is the recommended method for MCP clients that support it. Free-tier MCP access is available through the Borough auth flow, and paid Borough API keys unlock additional MCP tools.
+
+## Available Tools
+
+| Tool | Tier | Description |
+|------|------|-------------|
+| `search_rentals` | Free | Search rental listings with 15+ filters |
+| `search_sales` | Free | Search sales listings with filters |
+| `list_areas` | Free | List 349 NYC neighborhoods and area IDs |
+| `get_market_snapshot` | Free | Current market stats for a neighborhood |
+| `get_market_trends` | Free | Historical price trends (up to 365 days) |
+| `compare_neighborhoods` | Free | Side-by-side comparison of 1-5 areas |
+| `get_property` | Starter | Full listing detail (50+ fields) |
+| `get_property_by_url` | Starter | Look up listing by URL path |
+| `get_building` | Starter | Building detail (amenities, policies, scores) |
+| `get_building_listings` | Starter | All listings in a building |
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Quick Start" icon="rocket" href="/mcp/quickstart">
+    Get connected in 2 minutes
+  </Card>
+  <Card title="Tools Reference" icon="wrench" href="/mcp/tools-reference">
+    Detailed tool documentation
+  </Card>
+</CardGroup>

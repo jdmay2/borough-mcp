@@ -1,0 +1,138 @@
+---
+title: "Add Borough to Claude"
+description: "Exact steps for adding Borough as a custom connector in Claude and Claude Desktop"
+---
+
+## What You Need
+
+- A Borough account if you want paid tools
+- Optional: a Borough API key for Starter, Pro, Business, or Internal access
+- Claude web or Claude Desktop
+
+<Note>
+Custom connector availability in Claude can vary by Anthropic plan and rollout. Check Anthropic's current connector docs in your account if the add-connector flow is missing.
+</Note>
+
+## Connector URL
+
+Use this remote MCP server URL:
+
+```text
+https://borough.qwady.app/mcp
+```
+
+Claude discovers Borough's OAuth metadata automatically from:
+
+```text
+https://borough.qwady.app/.well-known/mcp/server.json
+```
+
+## Add Borough In Claude
+
+### Pro, Max, or Free individual plans
+
+1. Open **Settings → Connectors**
+2. In the **Connectors** section, click **Add custom connector**
+3. Paste:
+
+   ```text
+   https://borough.qwady.app/mcp
+   ```
+
+4. Click **Add**
+5. Claude will open Borough's OAuth flow
+6. On the Borough consent screen:
+   - enter a Borough API key to unlock your paid tier, or
+   - continue without a key to use the free MCP tool set
+7. Finish authorization
+8. In chat, open **Search and tools** and enable Borough
+
+### Team and Enterprise plans
+
+Owners add the connector first:
+
+1. Open **Organization settings → Connectors**
+2. Click **Add custom connector**
+3. Paste:
+
+   ```text
+   https://borough.qwady.app/mcp
+   ```
+
+4. Save the connector
+
+Then individual users:
+
+1. Open **Settings → Connectors**
+2. Find **Borough**
+3. Click **Connect**
+4. Complete the Borough OAuth flow
+5. Enable Borough from **Search and tools** in chat
+
+## What Auth Does In Borough
+
+Borough's MCP server is tier-aware.
+
+- If you authorize with no Borough API key, Claude gets the free tool set:
+  - `search_rentals`
+  - `search_sales`
+  - `list_areas`
+  - market tools
+- If you authorize with a paid Borough API key, Borough maps your tier and exposes the matching tools
+- Property and building detail tools are only exposed for non-free Borough tiers
+
+This means Claude only sees the tools your Borough configuration is allowed to use.
+
+## Troubleshooting
+
+### The icon does not update
+
+Claude may cache connector icons. If Borough's icon looks stale:
+
+1. Remove the connector from **Settings → Connectors**
+2. Add it again with:
+
+   ```text
+   https://borough.qwady.app/mcp
+   ```
+
+3. Reconnect auth
+
+Anthropic's current directory FAQ also notes that connector icons may come from the connector's favicon or a provided icon URL, so updates can lag if the client or icon source is cached.
+
+### Borough shows too many results in chat
+
+Borough's MCP tools now use smaller MCP-facing defaults than the REST API. If a conversation still gets too large:
+
+- ask for a smaller page
+- use narrower area filters
+- prefer exact area IDs instead of borough-level IDs when possible
+
+Example:
+
+```text
+Search rentals in area IDs 410 and 488, max 10 results, under $4,500
+```
+
+### Claude says Borough has no tools
+
+Check:
+
+1. The connector URL is exactly `https://borough.qwady.app/mcp`
+2. The auth flow completed successfully
+3. Borough is enabled from **Search and tools**
+4. Your current Borough tier actually includes the tool you are asking for
+
+## Example Prompts
+
+- "Search rentals in Williamsburg and Greenpoint under $4,500"
+- "List neighborhoods in Queens"
+- "Compare market snapshot data for Astoria and Long Island City"
+- "Get details for property 4961849"
+
+## Related Links
+
+- [MCP Overview](/mcp/overview)
+- [MCP Quick Start](/mcp/quickstart)
+- [MCP Tools Reference](/mcp/tools-reference)
+- [MCP Troubleshooting](/mcp/troubleshooting)

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "app.qwady/borough",
+  "title": "Borough NYC Real Estate API",
+  "description": "Search NYC rentals and sales, property details, building data, and market analytics",
+  "version": "1.1.0",
+  "websiteUrl": "https://docs.qwady.app",
+  "repository": {
+    "url": "https://github.com/jdmay2/borough-mcp",
+    "source": "github",
+    "id": "jdmay2/borough-mcp"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://borough.qwady.app/mcp"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@borough/mcp",
+      "version": "1.1.0",
+      "runtimeHint": "npx",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "BOROUGH_API_KEY",
+          "description": "Your Borough API key (get one free at https://docs.qwady.app/tiers-and-pricing)",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}
